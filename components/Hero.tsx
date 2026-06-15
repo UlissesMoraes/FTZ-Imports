@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Button from "./ui/Button";
 
@@ -10,19 +11,27 @@ const scrollTo = (id: string) => {
 };
 
 export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const imageOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
   return (
     <section
+      ref={sectionRef}
       id="inicio"
       className="relative flex min-h-screen items-center overflow-hidden pt-28 pb-16"
     >
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white via-graphite-50 to-graphite-100 dark:from-graphite-900 dark:via-navy-900 dark:to-graphite-800" />
 
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
+        <motion.div style={{ y: textY, opacity: textOpacity }}>
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[-0.04em] text-graphite-900 dark:text-white">
             Apple Premium.
             <br />
@@ -49,9 +58,7 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: "easeOut", delay: 0.15 }}
+          style={{ scale: imageScale, opacity: imageOpacity }}
           className="relative aspect-square w-full max-w-lg justify-self-center overflow-hidden rounded-3xl shadow-2xl"
         >
           <Image
