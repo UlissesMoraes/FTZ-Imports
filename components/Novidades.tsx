@@ -4,67 +4,89 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import SectionHeader from "./ui/SectionHeader";
 
-interface VideoCard {
-  src: string;
+interface Highlight {
+  emoji: string;
   title: string;
   description: string;
+  tag: string;
+  gradient: string;
 }
 
-const videos: VideoCard[] = [
+const highlights: Highlight[] = [
   {
-    src: "/media/iphone17.mp4",
-    title: "A nova geração chegou",
+    emoji: "📱",
+    title: "iPhone 16 chegou",
     description:
-      "A linha iPhone 17 já está dando o que falar. Confira de perto na FTZ Imports.",
+      "A nova linha iPhone 16 já está disponível na FTZ. Confira modelos, cores e as melhores condições de pagamento.",
+    tag: "Novidade",
+    gradient: "from-navy-900 via-navy-800 to-graphite-900",
   },
   {
-    src: "/media/oktoberfest.mp4",
-    title: "Recebemos a rainha da Oktoberfest",
+    emoji: "🏆",
+    title: "Recebemos a Rainha da Oktoberfest",
     description:
-      "A escolha da realeza para comprar seu próximo iPhone é a FTZ Imports.",
+      "A escolha da realeza para comprar o próximo Apple é a FTZ Imports, em Blumenau.",
+    tag: "Destaque",
+    gradient: "from-graphite-900 via-graphite-800 to-navy-900",
+  },
+  {
+    emoji: "🔧",
+    title: "Diagnóstico gratuito",
+    description:
+      "Troca de tela e bateria com agilidade. Orçamento transparente e iPhone reserva durante o reparo.",
+    tag: "Assistência",
+    gradient: "from-navy-800 via-graphite-900 to-graphite-800",
   },
 ];
 
-function VideoReveal({ video, index }: { video: VideoCard; index: number }) {
+function HighlightCard({
+  highlight,
+  index,
+}: {
+  highlight: Highlight;
+  index: number;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.92, 1, 0.96]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.4, 1, 1, 0.4]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.94, 1, 0.96]);
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.8, 1],
+    [0.3, 1, 1, 0.3]
+  );
 
   return (
     <motion.div
       ref={ref}
       style={{ scale, opacity }}
-      className="sticky top-24 mb-10 overflow-hidden rounded-[32px] shadow-2xl"
+      className="overflow-hidden rounded-[32px] shadow-2xl"
     >
-      <div className="relative aspect-[9/16] w-full max-h-[80vh] mx-auto sm:aspect-video">
-        <video
-          src={video.src}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, delay: index * 0.1 }}
-          className="absolute inset-x-0 bottom-0 p-8 sm:p-10"
-        >
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-[-0.02em] text-white">
-            {video.title}
-          </h3>
-          <p className="mt-3 max-w-md text-base sm:text-lg leading-relaxed text-graphite-100">
-            {video.description}
+      <div
+        className={`relative flex aspect-[4/5] w-full flex-col justify-end bg-gradient-to-br ${highlight.gradient} p-8 sm:p-10`}
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(52,87,178,0.2),transparent_60%)]" />
+        <div className="relative">
+          <span className="mb-4 inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white/70 backdrop-blur-sm">
+            {highlight.tag}
+          </span>
+          <div className="mb-4 text-5xl">{highlight.emoji}</div>
+          <motion.h3
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            className="text-2xl sm:text-3xl font-bold tracking-[-0.02em] text-white"
+          >
+            {highlight.title}
+          </motion.h3>
+          <p className="mt-3 max-w-xs text-base leading-relaxed text-graphite-200">
+            {highlight.description}
           </p>
-        </motion.div>
+        </div>
       </div>
     </motion.div>
   );
@@ -73,7 +95,7 @@ function VideoReveal({ video, index }: { video: VideoCard; index: number }) {
 export default function Novidades() {
   return (
     <section className="bg-graphite-900 py-20 md:py-28">
-      <div className="mx-auto max-w-5xl px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <SectionHeader
           theme="dark"
           eyebrow="Novidades"
@@ -81,9 +103,13 @@ export default function Novidades() {
           description="Bastidores, lançamentos e momentos especiais direto da nossa loja em Blumenau."
         />
 
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:items-start">
-          {videos.map((video, index) => (
-            <VideoReveal key={video.src} video={video} index={index} />
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {highlights.map((highlight, index) => (
+            <HighlightCard
+              key={highlight.title}
+              highlight={highlight}
+              index={index}
+            />
           ))}
         </div>
       </div>

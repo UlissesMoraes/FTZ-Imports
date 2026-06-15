@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, MessageCircle } from "lucide-react";
+import { Menu, X, MessageCircle, Moon, Sun } from "lucide-react";
 
 const navLinks = [
   { label: "Início", href: "#inicio" },
@@ -16,6 +16,29 @@ const WHATSAPP_URL = "https://wa.me/5547997927547";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const dark = stored ? stored === "dark" : prefersDark;
+    setIsDark(dark);
+    document.documentElement.classList.toggle("dark", dark);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const toggleDark = () => {
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+  };
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -24,13 +47,17 @@ export default function Header() {
     e.preventDefault();
     setIsOpen(false);
     const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-graphite-200/50 bg-white/70 backdrop-blur-xl dark:border-graphite-700/50 dark:bg-graphite-900/70">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "border-b border-graphite-200/50 bg-white/80 shadow-sm backdrop-blur-xl dark:border-graphite-700/50 dark:bg-graphite-900/80"
+          : "bg-transparent"
+      }`}
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <a
           href="#inicio"
@@ -53,7 +80,14 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-3 md:flex">
+          <button
+            onClick={toggleDark}
+            aria-label="Alternar tema"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-graphite-500 transition-colors hover:bg-graphite-100 hover:text-graphite-900 dark:text-graphite-400 dark:hover:bg-graphite-800 dark:hover:text-white"
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
           <a
             href={WHATSAPP_URL}
             target="_blank"
@@ -65,13 +99,22 @@ export default function Header() {
           </a>
         </div>
 
-        <button
-          className="md:hidden text-graphite-900 dark:text-white"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Abrir menu"
-        >
-          {isOpen ? <X size={26} /> : <Menu size={26} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={toggleDark}
+            aria-label="Alternar tema"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-graphite-500 transition-colors hover:bg-graphite-100 dark:text-graphite-400 dark:hover:bg-graphite-800"
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <button
+            className="text-graphite-900 dark:text-white"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Abrir menu"
+          >
+            {isOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
