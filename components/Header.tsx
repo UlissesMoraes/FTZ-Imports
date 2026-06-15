@@ -62,9 +62,15 @@ export default function Header() {
         <a
           href="#inicio"
           onClick={(e) => handleNavClick(e, "#inicio")}
-          className="text-lg font-semibold tracking-tight text-graphite-900 dark:text-white"
+          className="flex items-center"
+          aria-label="FTZ Imports — página inicial"
         >
-          FTZ Imports
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/loja/logo%20da%20empresa.jpg"
+            alt="FTZ Imports"
+            className="h-10 w-auto object-contain"
+          />
         </a>
 
         <nav className="hidden items-center gap-8 md:flex">

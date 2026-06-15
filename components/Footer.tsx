@@ -35,7 +35,12 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-3">
           <div>
-            <p className="text-lg font-semibold text-white">FTZ Imports</p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/loja/logo%20da%20empresa.jpg"
+              alt="FTZ Imports"
+              className="h-12 w-auto object-contain brightness-0 invert"
+            />
             <p className="mt-3 max-w-xs text-sm text-graphite-400">
               Apple Premium em Blumenau - SC. Produtos selecionados e
               assistência técnica especializada, com atendimento humano e

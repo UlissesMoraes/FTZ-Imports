@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Diferenciais from "@/components/Diferenciais";
 import Manifesto from "@/components/Manifesto";
 import Novidades from "@/components/Novidades";
+import Videos from "@/components/Videos";
 import Produtos from "@/components/Produtos";
 import AssistenciaTecnica from "@/components/AssistenciaTecnica";
 import Sobre from "@/components/Sobre";
@@ -21,6 +22,7 @@ export default function Home() {
         <Diferenciais />
         <Manifesto />
         <Novidades />
+        <Videos />
         <Produtos />
         <AssistenciaTecnica />
         <Sobre />
