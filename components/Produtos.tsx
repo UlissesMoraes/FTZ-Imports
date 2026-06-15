@@ -63,21 +63,21 @@ export default function Produtos() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="group overflow-hidden rounded-2xl bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl dark:bg-graphite-900"
+              className="group overflow-hidden rounded-[28px] bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-2xl dark:bg-graphite-900"
             >
               <div className="relative aspect-square w-full overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={produto.imagem}
                   alt={produto.nome}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-lg font-semibold text-graphite-900 dark:text-white">
+                <h3 className="text-xl font-semibold tracking-tight text-graphite-900 dark:text-white">
                   {produto.nome}
                 </h3>
-                <p className="mt-2 text-sm text-graphite-500 dark:text-graphite-300">
+                <p className="mt-2 text-base leading-relaxed text-graphite-500 dark:text-graphite-300">
                   {produto.descricao}
                 </p>
                 <a

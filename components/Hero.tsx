@@ -23,12 +23,12 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-graphite-900 dark:text-white">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[-0.04em] text-graphite-900 dark:text-white">
             Apple Premium.
             <br />
             Atendimento Humano.
           </h1>
-          <p className="mt-6 max-w-xl text-lg md:text-xl text-graphite-500 dark:text-graphite-300">
+          <p className="mt-6 max-w-xl text-lg md:text-xl leading-relaxed text-graphite-500 dark:text-graphite-300">
             iPhone, MacBook, iPad e AirPods com procedência garantida, além de
             assistência técnica especializada. Aqui você recebe atendimento
             personalizado e transparente, do primeiro contato ao
