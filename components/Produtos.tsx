@@ -4,49 +4,53 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+const encodeImg = (name: string) => `/produtos/${encodeURIComponent(name)}`;
+
 interface Produto {
   nome: string;
   descricao: string;
-  emoji: string;
-  gradient: string;
+  imagem: string;
+  bgClass: string;
 }
 
 const produtos: Produto[] = [
   {
     nome: "iPhone",
     descricao: "Modelos selecionados, com procedência garantida e revisão completa.",
-    emoji: "📱",
-    gradient: "from-graphite-800 to-graphite-900",
+    imagem: "/produtos/ip16-68f8ee3a79c7f-1400x1400.webp",
+    bgClass: "bg-graphite-50 dark:bg-graphite-800",
   },
   {
     nome: "MacBook",
     descricao: "Potência e portabilidade para o seu dia a dia, com garantia FTZ.",
-    emoji: "💻",
-    gradient: "from-navy-800 to-graphite-900",
+    imagem: "/produtos/macbook-neo-color-unselect-202603-gallery-1_FMT_WHH.jpg",
+    bgClass: "bg-graphite-50 dark:bg-graphite-800",
   },
   {
     nome: "iPad",
     descricao: "Criatividade e produtividade em um design leve e versátil.",
-    emoji: "🎨",
-    gradient: "from-navy-900 to-navy-800",
+    imagem: "/produtos/ipad-mini-finish-unselect-gallery-1-202410_FMT_WHH.jpg",
+    bgClass: "bg-white dark:bg-graphite-800",
   },
   {
     nome: "Apple Watch",
     descricao: "Saúde, conectividade e estilo no seu pulso, todos os dias.",
-    emoji: "⌚",
-    gradient: "from-graphite-900 to-navy-900",
+    imagem: "/produtos/watch_og_339223162.png",
+    bgClass: "bg-graphite-50 dark:bg-graphite-800",
   },
   {
     nome: "AirPods",
     descricao: "Som premium e conexão perfeita com todo o ecossistema Apple.",
-    emoji: "🎵",
-    gradient: "from-navy-800 to-graphite-800",
+    imagem: "/produtos/airpods-4-down-compare-202409_FMT_WHH.jpg",
+    bgClass: "bg-white dark:bg-graphite-800",
   },
   {
     nome: "Acessórios",
     descricao: "Capas, carregadores e periféricos originais e selecionados.",
-    emoji: "🔌",
-    gradient: "from-graphite-700 to-graphite-900",
+    imagem: encodeImg(
+      "✨ Por que nossos clientes amam a FTZPorque aqui o atendimento vai muito além de vender Apple-🍎  (1).jpg"
+    ),
+    bgClass: "bg-graphite-900",
   },
 ];
 
@@ -98,7 +102,7 @@ export default function Produtos() {
       className="bg-graphite-50 py-20 md:py-28 dark:bg-graphite-800 overflow-hidden"
     >
       <div className="mx-auto max-w-7xl px-6">
-        {/* Header row */}
+        {/* Cabeçalho + paddles */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
           <div>
             <span className="mb-3 inline-block text-sm font-semibold uppercase tracking-[0.2em] text-graphite-400">
@@ -113,7 +117,6 @@ export default function Produtos() {
             </p>
           </div>
 
-          {/* Paddle buttons */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <button
               onClick={() => scroll("left")}
@@ -134,7 +137,7 @@ export default function Produtos() {
           </div>
         </div>
 
-        {/* Scrollable track */}
+        {/* Trilha rolável */}
         <div
           ref={trackRef}
           className="flex pb-6 -mx-6 px-6"
@@ -155,19 +158,24 @@ export default function Produtos() {
               className="flex-none w-[76vw] sm:w-[320px] lg:w-[340px] overflow-hidden rounded-[28px] bg-white shadow-sm dark:bg-graphite-900"
               style={{ scrollSnapAlign: "start" }}
             >
+              {/* Imagem */}
               <div
-                className={`relative flex h-56 flex-col justify-end bg-gradient-to-br ${produto.gradient} p-7`}
+                className={`relative flex h-56 items-center justify-center overflow-hidden ${produto.bgClass}`}
               >
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(52,87,178,0.15),transparent_60%)]" />
-                <div className="relative">
-                  <div className="mb-2 text-5xl">{produto.emoji}</div>
-                  <h3 className="text-xl font-bold tracking-tight text-white">
-                    {produto.nome}
-                  </h3>
-                </div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={produto.imagem}
+                  alt={produto.nome}
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
               </div>
+
+              {/* Info */}
               <div className="p-6">
-                <p className="text-sm leading-relaxed text-graphite-500 dark:text-graphite-300">
+                <h3 className="text-xl font-bold tracking-tight text-graphite-900 dark:text-white">
+                  {produto.nome}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-graphite-500 dark:text-graphite-300">
                   {produto.descricao}
                 </p>
                 <a
@@ -185,7 +193,7 @@ export default function Produtos() {
           ))}
         </div>
 
-        {/* Dot navigation */}
+        {/* Dots */}
         <div className="mt-1 flex items-center justify-center gap-2">
           {produtos.map((_, i) => (
             <button
