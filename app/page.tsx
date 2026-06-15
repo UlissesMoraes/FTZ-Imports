@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Diferenciais from "@/components/Diferenciais";
+import Manifesto from "@/components/Manifesto";
 import Novidades from "@/components/Novidades";
 import Produtos from "@/components/Produtos";
 import AssistenciaTecnica from "@/components/AssistenciaTecnica";
@@ -18,6 +19,7 @@ export default function Home() {
       <main>
         <Hero />
         <Diferenciais />
+        <Manifesto />
         <Novidades />
         <Produtos />
         <AssistenciaTecnica />
