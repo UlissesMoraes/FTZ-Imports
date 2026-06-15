@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import SectionHeader from "./ui/SectionHeader";
 
 const DURATION = 7000;
@@ -11,42 +11,24 @@ const OKTOBERFEST_VIDEO = `/loja/${encodeURIComponent(
 )}`;
 
 // ── Slide 1: iPhone 17 Pro — aparece em pé, deita, nome revela ──────────────
+// Fase 1 (0.1-0.7s): iPhone entra de baixo em pé (y+opacity)
+// Fase 2 (0.9-1.9s): iPhone deita (rotate -90°)
+// Fase 3 (2.1-2.7s): texto "iPhone 17 Pro" aparece
 function IPhone17Slide() {
-  const phoneCtrl = useAnimation();
-  const textCtrl = useAnimation();
-
-  useEffect(() => {
-    const run = async () => {
-      // Fase 1: iPhone entra em pé
-      await phoneCtrl.start({
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
-      });
-      // Fase 2: iPhone deita (rotação -90°)
-      await phoneCtrl.start({
-        rotate: -90,
-        transition: { duration: 1.1, ease: [0.25, 0.46, 0.45, 0.94] },
-      });
-      // Fase 3: Nome aparece
-      await textCtrl.start({
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] },
-      });
-    };
-    run();
-  }, [phoneCtrl, textCtrl]);
-
   return (
     <div className="relative flex min-h-[500px] md:min-h-[600px] flex-col items-center justify-center overflow-hidden bg-black px-8 py-20">
       {/* Glow de fundo */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(52,87,178,0.22),transparent_65%)]" />
 
-      {/* iPhone */}
+      {/* iPhone: entra em pé depois deita */}
       <motion.div
         initial={{ opacity: 0, y: 100, rotate: 0 }}
-        animate={phoneCtrl}
+        animate={{ opacity: 1, y: 0, rotate: -90 }}
+        transition={{
+          opacity: { duration: 0.5, delay: 0.1 },
+          y: { duration: 0.6, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] },
+          rotate: { duration: 1.0, delay: 0.9, ease: [0.25, 0.46, 0.45, 0.94] },
+        }}
         style={{ transformOrigin: "center center" }}
         className="relative z-10"
       >
@@ -58,10 +40,11 @@ function IPhone17Slide() {
         />
       </motion.div>
 
-      {/* Texto */}
+      {/* Texto aparece após o iPhone deitar */}
       <motion.div
-        initial={{ opacity: 0, y: 28 }}
-        animate={textCtrl}
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, delay: 2.1, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="relative z-10 mt-10 text-center"
       >
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-graphite-400">
