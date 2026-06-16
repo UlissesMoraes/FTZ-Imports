@@ -6,40 +6,39 @@ import SectionHeader from "./ui/SectionHeader";
 
 const DURATION = 6000;
 
+const ftz = (n?: number) =>
+  `/produtos/${encodeURIComponent(
+    `✨ Por que nossos clientes amam a FTZPorque aqui o atendimento vai muito além de vender Apple-🍎${n != null ? `  (${n})` : " "}.jpg`
+  )}`;
+
 interface Slide {
   imagem: string;
   tag: string;
   titulo: string;
   descricao: string;
-  posicao?: string;
 }
 
 const slides: Slide[] = [
   {
-    imagem: "/novidades/hero_endframe__gb7f6nb06rau_xlarge_2x.jpg",
+    imagem: ftz(1),
     tag: "Novidade",
-    titulo: "iPhone 17 chegou",
+    titulo: "iPhone 17 chegou na FTZ",
     descricao:
-      "A nova linha iPhone 17 já está disponível na FTZ. Confira modelos, cores e as melhores condições de pagamento.",
-    posicao: "object-center",
+      "A nova linha iPhone 17 já está disponível. Confira modelos, cores e as melhores condições de pagamento em Blumenau.",
   },
   {
-    imagem: "/novidades/highlights_design_endframe__eu8gj0kqlmoi_large_2x.jpg",
+    imagem: ftz(2),
     tag: "Destaque",
     titulo: "Recebemos a Rainha da Oktoberfest",
     descricao:
-      "A escolha da realeza para comprar o próximo Apple é a FTZ Imports, em Blumenau.",
-    posicao: "object-top",
+      "A escolha da realeza para comprar o próximo Apple é a FTZ Imports, em Blumenau. A cidade mais alemã do Brasil escolheu a FTZ.",
   },
   {
-    imagem: `/produtos/${encodeURIComponent(
-      "✨ Por que nossos clientes amam a FTZPorque aqui o atendimento vai muito além de vender Apple-🍎  (1).jpg"
-    )}`,
+    imagem: ftz(4),
     tag: "Assistência",
     titulo: "Diagnóstico gratuito",
     descricao:
-      "Troca de tela e bateria com agilidade. Orçamento transparente e iPhone reserva durante o reparo.",
-    posicao: "object-center",
+      "Troca de tela e bateria com agilidade. Orçamento transparente e iPhone reserva durante todo o período de reparo.",
   },
 ];
 
@@ -92,7 +91,7 @@ export default function Novidades() {
               <img
                 src={s.imagem}
                 alt={s.titulo}
-                className={`absolute inset-0 h-full w-full object-cover ${s.posicao ?? "object-center"}`}
+                className="absolute inset-0 h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
 

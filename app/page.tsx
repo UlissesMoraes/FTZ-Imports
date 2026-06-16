@@ -7,6 +7,7 @@ import Videos from "@/components/Videos";
 import Produtos from "@/components/Produtos";
 import AssistenciaTecnica from "@/components/AssistenciaTecnica";
 import Sobre from "@/components/Sobre";
+import Galeria from "@/components/Galeria";
 import Avaliacoes from "@/components/Avaliacoes";
 import Localizacao from "@/components/Localizacao";
 import Contato from "@/components/Contato";
@@ -26,6 +27,7 @@ export default function Home() {
         <Produtos />
         <AssistenciaTecnica />
         <Sobre />
+        <Galeria />
         <Avaliacoes />
         <Localizacao />
         <Contato />
